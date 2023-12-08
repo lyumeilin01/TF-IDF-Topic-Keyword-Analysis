@@ -20,14 +20,14 @@ inputfile = Path(__file__).parent/arg.input_file
 pony_word_scores = {}
 pony_topwords = {}
 # valid_names = ["twilight sparkle", "applejack", "rarity", "pinkie pie", "rainbow dash", "fluttershy"]
-valid_names = ["twilight sparkle", "applejack", "rarity", "pinkie pie", "rainbow dash", "fluttershy"]
+valid_names = ["dating", "concert", "celeb", "brazil incident", "career", "politics", "lifestyle", "fan"]
 
-check = {}
+#check = {}
 final_output = {}
 for name in valid_names:
     pony_word_scores[name] = {}
     pony_topwords[name] = {}
-    check[name] = {}
+    #check[name] = {}
     final_output[name] = {}
 
 
@@ -50,8 +50,8 @@ with open(inputfile) as file:
                 if word in p:
                     counter+=1
             #check[pony][word] = counter
-            idf = math.log10(6/counter)
-            check[pony][word] = idf
+            idf = math.log10(8/counter)
+            #check[pony][word] = idf
 
             tfidf = tf*idf
             pony_word_scores[pony][word] = tfidf
@@ -60,8 +60,9 @@ with open(inputfile) as file:
     #print(check)
     #there are a lot of 6, especially for and
 def get_top_n_key_value_pairs(input_dict, n):
-    sorted_items = [key for key, value in sorted(input_dict.items(), key=lambda x: x[1], reverse=True)]
+    sorted_items = [(key,value) for key, value in sorted(input_dict.items(), key=lambda x: x[1], reverse=True)]
     return sorted_items[:n]
+
 
 
 
@@ -77,7 +78,7 @@ for pony, pony_tfidf in pony_word_scores.items():
     final_output[pony] = topn_pairs
 
 
-with open (Path(__file__).parent/"Distinctive_pony_words.json", 'w') as file:
+with open (Path(__file__).parent/"Distinctive_topic_words.json", 'w') as file:
     json.dump(final_output, file, indent=4)
     
                 

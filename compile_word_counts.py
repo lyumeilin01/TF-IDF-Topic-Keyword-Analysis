@@ -14,40 +14,41 @@ parser.add_argument("-d", "--data", required = True)
 
 arg = parser.parse_args()
 
-valid_names = ["twilight sparkle", "applejack", "rarity", "pinkie pie", "rainbow dash", "fluttershy"]
+valid_names = ["dating", "concert", "celeb", "brazil incident", "career", "politics", "lifestyle", "fan"]
 
 word_counts = {}
 
 for name in valid_names:
    word_counts[name] = {}
 
-   
-
-
 
 with open(arg.data) as file:
     csv_reader = csv.reader(file, delimiter = ',')
+    #skip headers
     next(csv_reader, None)
 
     for row in csv_reader:
       #topics/pony names
-      row[2] = row[2].lower()
+      row[0] = row[0].lower()
 
-      if row[2] not in valid_names:
+      if row[0] not in valid_names:
          continue
       # content/title 
-      row[3] = row[3].lower()
+      row[1] = row[1].lower()
 
-      for word in row[3].split():
+      for word in row[1].split():
         word = word.strip(",.?!-\"\'1234567890")
         # cleanup word
+        
+        if word in "taylor swift":
+           continue
 
          #check if word is in word_counts[row[2]]
          #if not, add
-        if word not in word_counts[row[2]]:
-            word_counts[row[2]][word] = 1
+        if word not in word_counts[row[0]]:
+            word_counts[row[0]][word] = 1
         else:
-           word_counts[row[2]][word]+=1
+           word_counts[row[0]][word]+=1
          #if is, value++
          
       
